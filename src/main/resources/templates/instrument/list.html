@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title th:text="#{instrument.list.headline}" />
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 th:text="#{instrument.list.headline}" class="flex-grow-1" />
+                <div>
+                    <a th:href="@{/instruments/add}" th:text="#{instrument.list.createNew}" class="btn btn-primary ms-2" />
+                </div>
+            </div>
+            <div th:if="${instruments.empty}" th:text="#{instrument.list.empty}" />
+            <div th:if="${!instruments.empty}" class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th th:text="#{instrument.id.label}" scope="col" />
+                            <th th:text="#{instrument.name.label}" scope="col" />
+                            <th th:text="#{instrument.img.label}" scope="col" />
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="instrument : ${instruments}">
+                            <td th:text="${instrument.id}" />
+                            <td th:text="${instrument.name}" />
+                            <td th:text="${instrument.img}" />
+                            <td>
+                                <div class="float-end text-nowrap">
+                                    <a th:href="@{/instruments/edit/{id}(id=${instrument.id})}" th:text="#{instrument.list.edit}" class="btn btn-sm btn-info" />
+                                    <form th:action="@{/instruments/delete/{id}(id=${instrument.id})}"
+                                            th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">
+                                        <button th:text="#{instrument.list.delete}" type="submit" class="btn btn-sm btn-danger" />
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

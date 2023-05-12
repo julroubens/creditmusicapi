@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title th:text="#{song.list.headline}" />
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 th:text="#{song.list.headline}" class="flex-grow-1" />
+                <div>
+                    <a th:href="@{/songs/add}" th:text="#{song.list.createNew}" class="btn btn-primary ms-2" />
+                </div>
+            </div>
+            <div th:if="${songs.empty}" th:text="#{song.list.empty}" />
+            <div th:if="${!songs.empty}" class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th th:text="#{song.id.label}" scope="col" />
+                            <th th:text="#{song.title.label}" scope="col" />
+                            <th th:text="#{song.artist.label}" scope="col" />
+                            <th th:text="#{song.releaseDate.label}" scope="col" />
+                            <th th:text="#{song.img.label}" scope="col" />
+                            <th th:text="#{song.album.label}" scope="col" />
+                            <th th:text="#{song.category.label}" scope="col" />
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="song : ${songs}">
+                            <td th:text="${song.id}" />
+                            <td th:text="${song.title}" />
+                            <td th:text="${song.artist}" />
+                            <td th:text="${song.releaseDate}" />
+                            <td th:text="${song.img}" />
+                            <td th:text="${song.album}" />
+                            <td th:text="${song.category}" />
+                            <td>
+                                <div class="float-end text-nowrap">
+                                    <a th:href="@{/songs/edit/{id}(id=${song.id})}" th:text="#{song.list.edit}" class="btn btn-sm btn-info" />
+                                    <form th:action="@{/songs/delete/{id}(id=${song.id})}"
+                                            th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">
+                                        <button th:text="#{song.list.delete}" type="submit" class="btn btn-sm btn-danger" />
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

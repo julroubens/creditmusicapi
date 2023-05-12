@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title th:text="#{song.edit.headline}" />
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 th:text="#{song.edit.headline}" class="flex-grow-1" />
+                <div>
+                    <a th:href="@{/songs}" th:text="#{song.edit.back}" class="btn btn-secondary" />
+                </div>
+            </div>
+            <div th:replace="~{fragments/forms::globalErrors('song')}" />
+            <form th:action="${T(com.creditmusic.credit_music_api_app.util.WebUtils).getRequest().requestURI}" method="post">
+                <div th:replace="~{fragments/forms::inputRow(object='song', field='title')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='song', field='artist')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='song', field='releaseDate', inputClass='js-datepicker')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='song', field='img')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='song', field='album', type='select')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='song', field='category', type='select')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='song', field='instrument', type='multiselect')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='song', field='intity', type='multiselect')}" />
+                <input type="submit" th:value="#{song.edit.headline}" class="btn btn-primary mt-4" />
+            </form>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title th:text="#{album.list.headline}" />
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 th:text="#{album.list.headline}" class="flex-grow-1" />
+                <div>
+                    <a th:href="@{/albums/add}" th:text="#{album.list.createNew}" class="btn btn-primary ms-2" />
+                </div>
+            </div>
+            <div th:if="${albums.empty}" th:text="#{album.list.empty}" />
+            <div th:if="${!albums.empty}" class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th th:text="#{album.id.label}" scope="col" />
+                            <th th:text="#{album.groupName.label}" scope="col" />
+                            <th th:text="#{album.title.label}" scope="col" />
+                            <th th:text="#{album.releaseDate.label}" scope="col" />
+                            <th><!-- --></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="album : ${albums}">
+                            <td th:text="${album.id}" />
+                            <td th:text="${album.groupName}" />
+                            <td th:text="${album.title}" />
+                            <td th:text="${album.releaseDate}" />
+                            <td>
+                                <div class="float-end text-nowrap">
+                                    <a th:href="@{/albums/edit/{id}(id=${album.id})}" th:text="#{album.list.edit}" class="btn btn-sm btn-info" />
+                                    <form th:action="@{/albums/delete/{id}(id=${album.id})}"
+                                            th:hx-confirm="#{delete.confirm}" method="post" class="d-inline">
+                                        <button th:text="#{album.list.delete}" type="submit" class="btn btn-sm btn-danger" />
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
